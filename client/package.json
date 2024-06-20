@@ -1,0 +1,163 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.tsx",
+  "scripts": {
+    "start": "NODE_ENV=local BABEL_ENV=production LOGGER_ENABLED=true webpack-dev-server --mode development --port 3000",
+    "build": "NODE_ENV=production LOGGER_ENABLED=true BABEL_ENV=production ./node_modules/.bin/webpack --mode development --config webpack.config.js",
+    "test": "BABEL_ENV=test jest ./src/test/unitTests/** --maxWorkers=4"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/register": "7.8.6",
+    "@emotion/babel-plugin": "^11.10.5",
+    "@emotion/jest": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.11.0",
+    "@reduxjs/toolkit": "^1.9.2",
+    "@types/enzyme": "^3.10.18",
+    "@types/isomorphic-fetch": "0.0.35",
+    "@types/jest": "^24.0.22",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "classnames": "^2.2.6",
+    "downshift": "^7.0.4",
+    "enzyme": "^3.11.0",
+    "focus-trap": "^5.0.2",
+    "history": "^5.3.0",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash": "^4.17.21",
+    "match-sorter": "^4.2.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.40",
+    "numeral": "^2.0.6",
+    "prop-types": "^15.7.2",
+    "react": "^18.2.0",
+    "react-addons-test-utils": "15.6.2",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-responsive": "^8.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^6.14.2",
+    "react-table": "^7.8.0",
+    "react-test-renderer": "^18.2.0",
+    "react-transition-group": "^4.4.5",
+    "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "@react-mock/fetch": "^0.3.0",
+    "@testing-library/dom": "^7.9.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^29.3.1",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-named-asset-import": "^0.3.4",
+    "babel-preset-react-app": "^10.0.0",
+    "browser-env": "3.3.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "3.2.0",
+    "enzyme-to-json": "^3.6.2",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.2.0",
+    "express": "^4.17.1",
+    "fetch-mock": "^8.0.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "25.0.0",
+    "jest-extended": "^0.11.2",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-resolve": "25.0.0",
+    "jest-transform-stub": "^2.0.0",
+    "jest-watch-typeahead": "0.4.2",
+    "jsdom": "22.1.0",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.3",
+    "redux-mock-store": "^1.5.4",
+    "sass": "^1.26.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "1.0.0",
+    "terser-webpack-plugin": "^2.2.1",
+    "tslint": "5.11.0",
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "snapshotSerializers": [
+      "@emotion/jest/enzyme-serializer"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/**/App.tsx",
+      "!src/**/index.tsx"
+    ],
+    "moduleNameMapper": {
+      "//.(css|scss|less|png)$": "identity-obj-proxy"
+    },
+    "setupFiles": [
+      "./src/test/unitTests/setupTests.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "jest-transform-stub"
+    },
+    "coverageThreshold": {
+      "global": {
+        "statements": 85,
+        "branches": 85,
+        "lines": 85,
+        "functions": 85
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browsersList": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-optional-chaining"
+    ]
+  }
+}

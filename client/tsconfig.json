@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "module": "esNext",
+    "moduleResolution": "node",
+    "target": "es5",
+    "jsx": "react",
+    "jsxImportSource": "@emotion/react",
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": ["src", "types/index.d.ts", "./typings.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

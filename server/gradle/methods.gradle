@@ -1,0 +1,21 @@
+def configureEnvironmentProperties() {
+    def map = [:]
+    if (file('local.env').exists()) {
+        file('local.env').readLines().each() {
+            if (!it.isEmpty() && !it.startsWith("#")) {
+                def (String key, String value) = it.tokenize('>')
+                if (value == null || value.isAllWhitespace()) {
+                    def stars = "*******************************************************************************"
+                    throw new GradleException("\n\n" + stars +
+                        " \n\n - Missing value in local.env for " + key + "\n\n" + stars)
+                }
+                map.put(key, value.trim())
+            }
+        }
+    }
+    return map
+}
+
+ext {
+    configureEnvironmentProperties = this.&configureEnvironmentProperties
+}

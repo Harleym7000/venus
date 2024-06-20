@@ -1,0 +1,94 @@
+apply plugin: 'jacoco'
+
+ext {
+    limits = [
+            'instructions': 100.0,
+            'branch': 100.0,
+            'line': 100.0,
+            'class': 100.0,
+            'method': 100.0,
+            'complexity': 100.0
+    ]
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+    reportsDirectory = file("$buildDir)/reports/coverage")
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    reports {
+        reports {
+            xml.required = true
+            csv.required = false
+            html.required = true
+        }
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['**/libs/*',
+                    '**/VenusApplication.class',
+                    '**/constants/*',
+                    '**/config/*',
+                    '**/model/**',
+                    '**/exceptions/*'])
+        }))
+    }
+
+    doLast {
+        def report = file("${jacoco.getReportsDirectory().get()}/test/jacocoTestReport.xml")
+        logger.lifecycle("Checking coverage results": $(report))
+        logger.lifecycle("")
+        def parser = new XmlParser()
+        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false);
+        def results = parser.parse(report)
+        def percentage = {
+            if(it == null) {
+                return 100.0
+            }
+            def covered = it.'@covered' as Double
+            def missed = it.'@missed' as Double
+            ((covered / (covered + missed)) * 100).round(2)
+        }
+        def counters = results.counter
+        def metrics = [:]
+        metrics << [
+                'instruction': percentage(counters.find { (it.'@type' == 'INSTRUCTION') }),
+                'branch': percentage(counters.find { (it.'@type' == 'BRANCH') }),
+                'line': percentage(counters.find { (it.'@type' == 'LINE') }),
+                'class': percentage(counters.find { (it.'@type' == 'CLASS') }),
+                'method': percentage(counters.find { (it.'@type' == 'METHOD') }),
+                'complexity': percentage(counters.find { (it.'@type' == 'COMPLEXITY') }),
+        ]
+        def failures = []
+        def successes = []
+        metrics.each {
+            def limit = limits(it.key)
+            if (it.value < limit) {
+                failures.add("- ${it.key} coverage:\t ${it.value}%, \t minimum is ${limit}%")
+            } else {
+                successes.add("- ${it.key} coverage:\t ${it.value}%, \t minimum is ${limit}%")
+            }
+        }
+        if (failures) {
+            logger.quiet("------------------ Code Coverage Failed ------------------")
+            failures.each {
+                logger.quiet(it)
+            }
+            logger.quiet("----------------------------------------------------------")
+            logger.quiet("\nfile://${jacoco.getReportsDirectory().get()}/test/html/index.html")
+            throw new GradleException("Code coverage failed")
+        } else {
+            logger.quiet("---------------- Passed Code Coverage Check ----------------")
+            successes.each {
+                logger.quiet(it)
+            }
+            logger.quiet("------------------------------------------------------------")
+        }
+        logger.quiet("file://${jacoco.getReportsDiretory().get()}/test/html/index.html")
+    }
+}
